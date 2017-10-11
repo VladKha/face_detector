@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %} Face detector {% endblock %}</title>
+
+    {% load static %}
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'index' %}">Face detector</a>
+    </div>
+</nav>
+
+<!-- Page Content -->
+<section class="py-5">
+    <div class="container">
+        {% block content %}
+            <!-- Code -->
+        {% endblock %}
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="py-2 bg-dark row">
+    <div class="col-sm-4 text-center"></div>
+
+    <div class="col-sm-4 text-center">
+        <div class="col-md-12">
+            <a href="https://github.com/VladKha"><i class="fa fa-4x fa-fw fa-github text-inverse" aria-hidden="true"></i></a>
+        </div>
+    </div>
+
+    <div class="col-sm-4 text-center">
+        <div class="container">
+            <p class="m-0 text-center text-white">
+                <br>
+                &copy; Vladyslav Khaitov 2017
+                <br>
+            </p>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap core JavaScript -->
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+{% extends 'detector/base.html' %}
+
+{% block content %}
+    <div class="container text-center">
+        <h1> Select an image with a face</h1>
+        <form method="post" enctype="multipart/form-data" class="form-group">
+            {% csrf_token %}
+            <label class="custom-file text-left row">
+                <input type="file" name="upload_photo" class="custom-file-input">
+                <span type="submit" class="custom-file-control"></span>
+            </label>
+            <br>
+            <button type="submit" class="btn btn-primary col-xs-2 col-sm-2 col-md-2 col-lg-2 row align-top">Upload</button>
+        </form>
+
+        {% if original_photo_url %}
+            <div class="row">
+                <div class="col-sm-6">
+                    <input type="image" src="{{ original_photo_url }}" onclick="window.open('{{ original_photo_url }}', '_blank')" class="col-sm-12"/>
+                </div>
+                <div class="col-sm-offset-1 col-sm-6">
+                    <input type="image" src="{{ hog_image_url }}" onclick="window.open('{{ hog_image_url }}', '_blank')" class="col-sm-12"/>
+                </div>
+            </div>
+        {% else %}
+            <section class="py-5"></section>
+            <section class="py-5"></section>
+            <section class="py-5"></section>
+        {% endif %}
+    </div>
+    <section class="py-5"></section>
+
+{% endblock %}
