@@ -6,11 +6,11 @@
         <form method="post" enctype="multipart/form-data" class="form-group">
             {% csrf_token %}
             <label class="custom-file text-left row">
-                <input type="file" name="image" class="custom-file-input" accept="image/*" required>
+                <input type="file" name="image" class="custom-file-input" accept="image/*" id="file_chooser" required>
                 <span type="submit" class="custom-file-control" >Choose an image...</span>
             </label>
             <br>
-            <button type="submit" class="btn btn-primary col-xs-2 col-sm-2 col-md-2 col-lg-2 row align-top">Upload</button>
+            <button type="submit" class="btn btn-primary col-xs-2 col-sm-2 col-md-2 col-lg-2 row align-top" id="submit_button" hidden>Upload</button>
         </form>
 
         {% if error_message %}
