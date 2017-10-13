@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 import environ
 
-ROOT_DIR = environ.Path(__file__) - 3  # (project/config/settings/common.py - 3 = project/)
+ROOT_DIR = environ.Path(__file__) - 3  # (project/config/settings/base.py - 3 = project/)
 APPS_DIR = ROOT_DIR.path('project')
 
 env = environ.Env()
