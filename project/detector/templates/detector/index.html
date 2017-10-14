@@ -1,38 +1,41 @@
 {% extends 'detector/base.html' %}
 
 {% block content %}
-    <div class="container text-center">
+    <div class="text-center">
         <h1> Select an image with a face</h1>
-        <form method="post" enctype="multipart/form-data" class="form-group">
+        <form method="post" enctype="multipart/form-data" class="form-group" id="image_form">
             {% csrf_token %}
             <label class="custom-file text-left row">
                 <input type="file" name="image" class="custom-file-input" accept="image/*" id="file_chooser" required>
                 <span type="submit" class="custom-file-control" >Choose an image...</span>
             </label>
-            <br>
-            <button type="submit" class="btn btn-primary col-xs-2 col-sm-2 col-md-2 col-lg-2 row align-top" id="submit_button" hidden>Upload</button>
         </form>
 
-        {% if error_message %}
-            <div class="alert alert-danger" role="alert">
-                {{ error_message }}
-            </div>
-        {% elif original_image_url %}
-            <div class="row">
-                <div class="col-sm-6">
-                    <input type="image" src="{{ original_image_url }}" onclick="window.open('{{ original_image_url }}', '_blank')" class="col-sm-12"/>
-                </div>
-                <div class="col-sm-offset-1 col-sm-6">
-                    <input type="image" src="{{ hog_image_url }}" onclick="window.open('{{ hog_image_url }}', '_blank')" class="col-sm-12"/>
-                </div>
-            </div>
-        {% endif %}
 
-        {% if error_message or not original_image_url%}
+        <div class="progress" id="progress" style="display: none;">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" id="progress_bar"
+                 role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                 style="width: 0">
+            </div>
+        </div>
+
+        <div class="alert alert-danger" role="alert" id="error_block" style="display: none;">
+            <!-- Errors text -->
+        </div>
+        <div class="row justify-content-md-center" style="display: none;" id="images">
+            <div class="col-sm-6">
+                <input type="image" id="original_image" class="col-12"/>
+            </div>
+            <div class="col-sm-6">
+                <input type="image" id="hog_image" class="col-12"/>
+            </div>
+        </div>
+
+        <div id="blank_placeholders">
             <section class="py-5"></section>
             <section class="py-5"></section>
             <section class="py-5"></section>
-        {% endif %}
+        </div>
     </div>
     <section class="py-5"></section>
 
