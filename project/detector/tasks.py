@@ -12,11 +12,10 @@ from hog import hog
 @shared_task
 def create_hog(original_file_name):
     current_task.update_state(meta={'process_percent': 25})
-    print('Enter create_hog')
 
     fs = FileSystemStorage()
     original_image = fs.open(original_file_name)
-    current_task.update_state(meta={'process_percent': 50})
+    current_task.update_state(meta={'process_percent': 30})
 
     image = scipy.misc.imread(original_image)
     histogram_descriptor, hog_image = hog(image)  # , pixels_per_cell=(16, 16), cells_per_block=(4, 4))
@@ -32,6 +31,5 @@ def create_hog(original_file_name):
 
     histogram_descriptor = pd.Series(histogram_descriptor).to_json(orient='values')
     # pd.read_json('?', orient='values')
-    current_task.update_state(meta={'process_percent': 99})
-    print('Exit create_hog')
+    current_task.update_state(meta={'process_percent': 100})
     return histogram_descriptor, original_photo_url, hog_image_url

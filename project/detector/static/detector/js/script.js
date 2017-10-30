@@ -5,6 +5,8 @@ $(document).ready(function() {
         $('#error_block').hide();
         $("#images").hide();
         $("#blank_placeholders").show();
+        $('#progress_bar').css({'width': 20 + '%'});
+        $('#progress_bar').html('Processing: ' + 20 + '%');
     });
 
     $('#file_chooser').on('click touchstart', function () {
@@ -22,10 +24,10 @@ $(document).ready(function() {
             processData: false,
             contentType: false,
             success: function(data) {
-                console.log('upload success');
+                console.log('photo uploaded successfully');
                 $("#progress").show();
 
-                var task_id = data["task_id"];
+                var task_id = data['task_id'];
                 console.log('task id: ' + task_id);
                 var stop_progress_bar = false;
                 var poll = function(){
@@ -33,36 +35,34 @@ $(document).ready(function() {
                         url:'poll_hog_state/',
                         type: 'GET',
                         cache: false,
-                        // processData: false,
-                        // contentType: false,
                         data: {
                             task_id: task_id
                         },
-                        success: function(result) {
-                            if (result !== null && result !== undefined) {
-                                if (result.length === undefined) {
-                                    console.log('1 ' + result)
-                                }
-                                else {
-                                    console.log('2 result len: ' + result.length + ', ' + result[1])
-                                }
-                                if (result.process_percent == null || result.process_percent === undefined) {
+                        success: function(poll_result) {
+                            console.log('poll_result:');
+                            console.log(poll_result);
+                            if (poll_result !== null) {
+                                var hog_result = poll_result['hog_result'];
+
+                                if (poll_result['state'] === 'SUCCESS') {
                                     stop_progress_bar = true;
                                     $('#progress_bar').css({'width': 100 + '%'});
                                     $('#progress_bar').html(100 + '%');
 
-                                    console.log('!' + result.length);
-                                    $("#original_image").attr('src', result[1]);
-                                    $("#original_image").attr('onclick', "window.open('" + result[1] + "', '_blank')");
+                                    var original_url = hog_result[1];
+                                    $("#original_image").attr('src', original_url);
+                                    $("#original_image").attr('onclick', "window.open('" + original_url + "', '_blank')");
 
-                                    $("#hog_image").attr('src', result[2]);
-                                    $("#hog_image").attr('onclick', "window.open('" + result[2] + "', '_blank')");
+                                    var hog_url = hog_result[2];
+                                    $("#hog_image").attr('src', hog_url);
+                                    $("#hog_image").attr('onclick', "window.open('" + hog_url + "', '_blank')");
                                 } else {
-                                    $('#progress_bar').css({'width': result.process_percent + '%'});
-                                    $('#progress_bar').html('Processing: ' + result.process_percent + '%');
+                                    var percents = hog_result['process_percent'];
+                                    $('#progress_bar').css({'width': percents + '%'});
+                                    $('#progress_bar').html('Processing: ' + percents + '%');
                                 }
                             } else {
-                                console.log('!!!')
+                                console.log('ERROR poll_result is null');
                             }
                         }
 
@@ -80,7 +80,7 @@ $(document).ready(function() {
             },
             error: function (result) {
                 var error_message = result['responseText'];
-                console.log(error_message);
+                console.log('ERROR ' + error_message);
                 $('#error_block').html(error_message);
                 $('#error_block').show();
             }

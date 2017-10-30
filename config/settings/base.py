@@ -181,8 +181,10 @@ LOGGING = {
 from logging.config import dictConfig
 dictConfig(LOGGING)
 
-BROKER_URL = 'amqp://guest:guest@localhost//'
-CELERY_RESULT_BACKEND = 'amqp://guest:guest@localhost//'
+BROKER_URL = env.str('CLOUDAMQP_URL')
+BROKER_POOL_LIMIT = 1
+CELERY_RESULT_BACKEND = env.str('CLOUDAMQP_URL')
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
