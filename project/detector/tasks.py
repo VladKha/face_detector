@@ -11,6 +11,7 @@ from hog import hog
 
 @shared_task
 def create_hog(original_file_name):
+    print('enter create_hog')
     current_task.update_state(meta={'process_percent': 25})
 
     fs = FileSystemStorage()
@@ -32,4 +33,5 @@ def create_hog(original_file_name):
     histogram_descriptor = pd.Series(histogram_descriptor).to_json(orient='values')
     # pd.read_json('?', orient='values')
     current_task.update_state(meta={'process_percent': 100})
+    print('exit create_hog\n')
     return histogram_descriptor, original_photo_url, hog_image_url
