@@ -185,9 +185,7 @@ LOGGING = {
 from logging.config import dictConfig
 dictConfig(LOGGING)
 
-BROKER_URL = env.str('CLOUDAMQP_URL')
 BROKER_POOL_LIMIT = 1
-CELERY_RESULT_BACKEND = env.str('CLOUDAMQP_URL')
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
