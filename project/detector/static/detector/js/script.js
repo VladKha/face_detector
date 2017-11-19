@@ -13,7 +13,7 @@ $(document).ready(function() {
         $(this).val('');
     });
 
-    $("#image_form").submit(function (event) {
+    $("#image_form").submit(function(event) {
         event.preventDefault();
         var data = new FormData($("#image_form").get(0));
         $.ajax({
@@ -32,7 +32,7 @@ $(document).ready(function() {
                 var stop_progress_bar = false;
                 var poll = function(){
                     $.ajax({
-                        url:'poll_hog_state/',
+                        url:'poll_face_detector_state/',
                         type: 'GET',
                         cache: false,
                         data: {
@@ -42,22 +42,22 @@ $(document).ready(function() {
                             console.log('poll_result:');
                             console.log(poll_result);
                             if (poll_result !== null) {
-                                var hog_result = poll_result['hog_result'];
+                                var result = poll_result['result'];
 
                                 if (poll_result['state'] === 'SUCCESS') {
                                     stop_progress_bar = true;
                                     $('#progress_bar').css({'width': 100 + '%'});
                                     $('#progress_bar').html(100 + '%');
 
-                                    var original_url = hog_result[1];
+                                    var original_url = result[0];
                                     $("#original_image").attr('src', original_url);
                                     $("#original_image").attr('onclick', "window.open('" + original_url + "', '_blank')");
 
-                                    var hog_url = hog_result[2];
+                                    var hog_url = result[1];
                                     $("#hog_image").attr('src', hog_url);
                                     $("#hog_image").attr('onclick', "window.open('" + hog_url + "', '_blank')");
                                 } else {
-                                    var percents = hog_result['process_percent'];
+                                    var percents = result['process_percent'];
                                     $('#progress_bar').css({'width': percents + '%'});
                                     $('#progress_bar').html('Processing: ' + percents + '%');
                                 }

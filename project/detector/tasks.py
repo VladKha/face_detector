@@ -1,39 +1,38 @@
 import os
 
-import pandas as pd
 import scipy.misc
 from celery import shared_task, current_task
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 
-from hog import hog
+from face_detector.detector import Detector
 
 
 @shared_task
-def create_hog(original_file_name):
-    print('enter create_hog')
+def detect_faces(original_file_name):
+    print('enter detect_faces')
 
-    current_task.update_state(meta={'process_percent': 25})
+    current_task.update_state(meta={'process_percent': 15})
 
     fs = FileSystemStorage()
     original_image = fs.open(original_file_name)
-    current_task.update_state(meta={'process_percent': 30})
+    current_task.update_state(meta={'process_percent': 20})
 
     image = scipy.misc.imread(original_image)
-    histogram_descriptor, hog_image = hog(image)
-    current_task.update_state(meta={'process_percent': 80})
+    print(f'Image size {image.shape}')
 
-    hog_file_name = 'hog_' + original_file_name
-    hog_file_path = os.path.join(settings.MEDIA_ROOT, hog_file_name)
-    scipy.misc.imsave(hog_file_path, hog_image)
+    detector = Detector()
+    image_before_nms, image_after_nms = detector.detect(image)
     current_task.update_state(meta={'process_percent': 90})
 
-    hog_image_url = fs.url(hog_file_name)
-    original_photo_url = fs.url(original_file_name)
+    detected_file_name = 'detected_' + original_file_name
+    detected_file_path = os.path.join(settings.MEDIA_ROOT, detected_file_name)
+    scipy.misc.imsave(detected_file_path, image_after_nms)
+    current_task.update_state(meta={'process_percent': 95})
 
-    histogram_descriptor = pd.Series(histogram_descriptor).to_json(orient='values')
-    # pd.read_json('?', orient='values')
+    detected_image_url = fs.url(detected_file_name)
+    original_photo_url = fs.url(original_file_name)
     current_task.update_state(meta={'process_percent': 100})
 
-    print('exit create_hog\n')
-    return histogram_descriptor, original_photo_url, hog_image_url
+    print('exit detect_faces\n')
+    return original_photo_url, detected_image_url

@@ -4,7 +4,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 
 from .forms import ImageUploadForm
-from .tasks import create_hog
+from .tasks import detect_faces
 
 
 def index(request):
@@ -23,7 +23,7 @@ def index(request):
             fs.delete(original_photo_name)
             original_file_name = fs.save(original_photo_name, original_image)
 
-            task = create_hog.delay(original_file_name)
+            task = detect_faces.delay(original_file_name)
             return JsonResponse({'task_id': task.id})
         else:
             return HttpResponse(content='Upload a valid image. The file you uploaded was either '
@@ -33,20 +33,20 @@ def index(request):
     return render(request, 'detector/index.html', context)
 
 
-def poll_hog_state(request):
+def poll_face_detector_state(request):
     """ A view to report the progress to the user """
-    print('enter poll_hog_state')
+    print('enter poll_face_detector_state')
     poll_result = {}
     if request.is_ajax():
         task_id = request.GET.get('task_id')
         if task_id:
             task = AsyncResult(task_id)
-            poll_result['hog_result'] = task.result
+            poll_result['result'] = task.result
             poll_result['state'] = task.state
         else:
-            poll_result['hog_result'] = 'No task_id in the request'
+            poll_result['result'] = 'No task_id in the request'
     else:
-        poll_result['hog_result'] = 'This is not an ajax request'
+        poll_result['result'] = 'This is not an ajax request'
 
-    print('exit poll_hog_state\n')
+    print('exit poll_face_detector_state\n')
     return JsonResponse(poll_result)

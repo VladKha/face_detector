@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^poll_hog_state/$', views.poll_hog_state, name='poll_hog_state')
+    url(r'^poll_face_detector_state/$', views.poll_face_detector_state, name='poll_face_detector_state')
 ]
