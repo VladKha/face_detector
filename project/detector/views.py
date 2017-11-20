@@ -1,5 +1,8 @@
+import base64
+import io
+
+from PIL import Image
 from celery.result import AsyncResult
-from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 
@@ -18,12 +21,14 @@ def index(request):
             print('index post valid')
             original_image = form.cleaned_data['image']
 
-            fs = FileSystemStorage()
-            original_photo_name = original_image.name
-            fs.delete(original_photo_name)
-            original_file_name = fs.save(original_photo_name, original_image)
+            # read and encode image file to be able to transfer it through json
+            original_image = Image.open(io.BytesIO(original_image.read()))
+            raw_bytes = io.BytesIO()
+            original_image.save(raw_bytes, "PNG")
+            raw_bytes.seek(0)
+            base64_encoded_image = base64.b64encode(raw_bytes.read()).decode('utf-8')
 
-            task = detect_faces.delay(original_file_name)
+            task = detect_faces.delay(base64_encoded_image)
             return JsonResponse({'task_id': task.id})
         else:
             return HttpResponse(content='Upload a valid image. The file you uploaded was either '

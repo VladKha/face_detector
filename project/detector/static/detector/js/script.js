@@ -49,13 +49,11 @@ $(document).ready(function() {
                                     $('#progress_bar').css({'width': 100 + '%'});
                                     $('#progress_bar').html(100 + '%');
 
-                                    var original_url = result[0];
+                                    var original_url = 'data:image/png;base64,' + result[0];
                                     $("#original_image").attr('src', original_url);
-                                    $("#original_image").attr('onclick', "window.open('" + original_url + "', '_blank')");
 
-                                    var hog_url = result[1];
-                                    $("#hog_image").attr('src', hog_url);
-                                    $("#hog_image").attr('onclick', "window.open('" + hog_url + "', '_blank')");
+                                    var detections_url = 'data:image/png;base64,' + result[1];
+                                    $("#detections_image").attr('src', detections_url);
                                 } else {
                                     var percents = result['process_percent'];
                                     $('#progress_bar').css({'width': percents + '%'});
@@ -76,7 +74,7 @@ $(document).ready(function() {
                         $("#images").show();
                         $("#blank_placeholders").hide();
                     }
-                },500);
+                },1000);
             },
             error: function (result) {
                 var error_message = result['responseText'];
