@@ -3,7 +3,6 @@ import cv2
 from sklearn.externals import joblib
 
 from . import MODEL_PATH
-# from .hog import hog
 from skimage.feature import hog
 from .utils import sliding_window, pyramid, non_max_suppression, rgb2gray
 
