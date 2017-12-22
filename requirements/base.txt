@@ -1,6 +1,6 @@
-django==1.11.6
+django==2.0.1
 django-environ==0.4.4
-numpy==1.13.3
+numpy==1.14.0
 matplotlib==2.1.0
 scikit-learn==0.19.1
 scikit-image==0.13.1
@@ -8,3 +8,4 @@ scipy==0.19.1
 Pillow==4.3.0
 pandas==0.20.3
 celery==4.1.0
+opencv-python==3.4.0.12
