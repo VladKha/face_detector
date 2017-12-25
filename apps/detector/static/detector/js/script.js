@@ -1,21 +1,26 @@
 $(document).ready(function() {
-    $("#file_chooser").change(function (event) {
+    var file_chooser = $("#file_chooser");
+    var progress_bar = $('#progress_bar');
+    var image_form = $("#image_form");
+    var error_block = $('#error_block');
+
+    file_chooser.change(function (event) {
         event.preventDefault();
         $("#image_form").submit();
-        $('#error_block').hide();
+        error_block.hide();
+        progress_bar.css({'width': 20 + '%'});
+        progress_bar.html('Processing: ' + 20 + '%');
         $("#images").hide();
         $("#blank_placeholders").show();
-        $('#progress_bar').css({'width': 20 + '%'});
-        $('#progress_bar').html('Processing: ' + 20 + '%');
     });
 
-    $('#file_chooser').on('click touchstart', function () {
+    file_chooser.on('click touchstart', function () {
         $(this).val('');
     });
 
-    $("#image_form").submit(function(event) {
+    image_form.submit(function(event) {
         event.preventDefault();
-        var data = new FormData($("#image_form").get(0));
+        var data = new FormData(image_form.get(0));
         $.ajax({
             url: '/',
             type: 'POST',
@@ -41,13 +46,13 @@ $(document).ready(function() {
                         success: function(poll_result) {
                             console.log('poll_result:');
                             console.log(poll_result);
-                            if (poll_result !== null) {
+                            if (poll_result !== null && poll_result['result'] !== null) {
                                 var result = poll_result['result'];
 
                                 if (poll_result['state'] === 'SUCCESS') {
                                     stop_progress_bar = true;
-                                    $('#progress_bar').css({'width': 100 + '%'});
-                                    $('#progress_bar').html(100 + '%');
+                                    progress_bar.css({'width': 100 + '%'});
+                                    progress_bar.html(100 + '%');
 
                                     var original_url = 'data:image/png;base64,' + result[0];
                                     $("#original_image").attr('src', original_url);
@@ -56,8 +61,8 @@ $(document).ready(function() {
                                     $("#detections_image").attr('src', detections_url);
                                 } else {
                                     var percents = result['process_percent'];
-                                    $('#progress_bar').css({'width': percents + '%'});
-                                    $('#progress_bar').html('Processing: ' + percents + '%');
+                                    progress_bar.css({'width': percents + '%'});
+                                    progress_bar.html('Processing: ' + percents + '%');
                                 }
                             } else {
                                 console.log('ERROR poll_result is null');
@@ -79,8 +84,8 @@ $(document).ready(function() {
             error: function (result) {
                 var error_message = result['responseText'];
                 console.log('ERROR ' + error_message);
-                $('#error_block').html(error_message);
-                $('#error_block').show();
+                error_block.html(error_message);
+                error_block.show();
             }
         });
     });
