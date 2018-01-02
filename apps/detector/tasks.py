@@ -28,7 +28,7 @@ def detect_faces(base64_encoded_image):
     im.save(raw_bytes, "PNG")
     raw_bytes.seek(0)  # return to the start of the file
     detected_image_encoded = base64.b64encode(raw_bytes.read()).decode('utf-8')
-    current_task.update_state(meta={'process_percent': 100})
+    current_task.update_state(meta={'process_percent': 99})
 
     print('exit detect_faces\n')
     return base64_encoded_image, detected_image_encoded
