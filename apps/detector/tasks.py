@@ -5,7 +5,7 @@ import numpy as np
 from PIL import Image
 from celery import shared_task, current_task
 
-from detector.detector import Detector
+from object_detector.detector import Detector
 
 
 @shared_task
