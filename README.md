@@ -1,9 +1,8 @@
 # Face detector
 [Website](https://face-detector-app.herokuapp.com/) for face detection from image.
 
-Built using mine [object_detector](https://github.com/VladKha/object_detector) project,
+Built using mine [object_detector](https://github.com/VladKha/object_detector) project (see more on it's [Github page](https://github.com/VladKha/object_detector)),
 trained on faces datasets.
-More about _object_detector_ on it's Github page https://github.com/VladKha/object_detector.
 Tools for detection are inside _object_detector_ package located in project root.
 
 _**Note:** site may need some spin up time if nobody has accessed it for a certain period._
@@ -15,15 +14,15 @@ There are 2 ways of running the project for development of deployment:
 usual (not dockerized) and dockerized:
 
  _Usual_|_Dockerized_
- |:-------------------|:------------------------------------|
- 1) Install RabbitMQ | 1) Install Docker and Docker-Compose
- 2) Copy environment file env.example and rename it to .env | 2) Copy environment file env.example and rename it to .env
- 3) In .env file set DJANGO_SECRET_KEY and CELERY_BROKER_URL | 3) In .env file set DJANGO_SECRET_KEY
- 4) Execute in command line `pip install -r requirements.txt` | 4) Start docker engine
- 5) Start RabbitMQ | 5) Execute in command line `sh up.sh` which will start-up all the containers (first time can take some time to boot up because of the Docker images downloading and building)
- 6) Start Celery worker `celery -A config worker -l` | 6) Access website on http://0.0.0.0:8000/
- 7) Start Django server `python manage.py runserver 0.0.0.0:8000` |
- 8) Access website on http://0.0.0.0:8000/ |
+ |:---|:---|
+ 1\. Install RabbitMQ | 1\. Install Docker and Docker-Compose
+ 2\. Copy environment file env.example and rename it to .env | 2\. Copy environment file env.example and rename it to .env
+ 3\. In .env file set DJANGO_SECRET_KEY and CELERY_BROKER_URL | 3\. In .env file set DJANGO_SECRET_KEY
+ 4\. Execute in command line `pip install -r requirements.txt` | 4\. Start docker engine
+ 5\. Start RabbitMQ | 5\. Execute in command line `sh up.sh` which will start-up all the containers (first time can take some time to boot up because of the Docker images downloading and building)
+ 6\. Start Celery worker `celery -A config worker -l` | 6\. Access website on http://0.0.0.0:8000/
+ 7\. Start Django server `python manage.py runserver 0.0.0.0:8000` |
+ 8\. Access website on http://0.0.0.0:8000/ |
 
 ##### _To shutdown dockerized application_ - execute in command line
 ```bash
