@@ -5,13 +5,16 @@ Built using mine [object_detector](https://github.com/VladKha/object_detector) p
 trained on faces datasets.
 Tools for detection are inside _object_detector_ package located in project root.
 
-_**Note:** site may need some spin up time if nobody has accessed it for a certain period._
+_**Note 1:** site may need some spin up time if nobody has accessed it for a certain period._
+
+_**Note 2:** detection can take some time (few seconds) depending on image size
+ because of the slow algorithm (HOG + SVM framework)._
 
 ## Getting Started
 These instructions will get you a copy of the project up and running
 on your local machine for development purposes.
 There are 2 ways of running the project for development of deployment:
-usual (not dockerized) and dockerized.
+_usual_ (not dockerized) and _dockerized_.
 
  _Usual_|_Dockerized_
  |:---|:---|
@@ -21,7 +24,7 @@ usual (not dockerized) and dockerized.
  4\. Execute in command line `pip install -r requirements.txt` | 4\. Start docker engine
  5\. Start RabbitMQ | 5\. Execute in command line `sh up.sh` which will start-up all the containers (first time can take some time to boot up because of the Docker images downloading and building)
  6\. Start Celery worker `celery -A config worker -l` | 6\. Access website on http://0.0.0.0:8000/
- 7\. Start Django server `python manage.py runserver 0.0.0.0:8000` | _To shutdown dockerized application_ - execute in command line `sh down.sh`
+ 7\. Start Django server `python manage.py runserver 0.0.0.0:8000` | _**To shutdown dockerized application**_ - execute in command line `sh down.sh`
  8\. Access website on http://0.0.0.0:8000/ |
 
 
