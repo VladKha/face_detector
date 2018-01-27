@@ -4,7 +4,7 @@ numpy==1.14.0
 matplotlib==2.1.2
 scikit-learn==0.19.1
 scikit-image==0.13.1
-scipy==0.19.1
+scipy==1.0.0
 Pillow==4.3.0
 pandas==0.20.3
 celery==4.1.0
