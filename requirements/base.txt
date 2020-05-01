@@ -1,6 +1,6 @@
 django==3.0.5
 django-environ==0.4.5
-numpy==1.14.2
+numpy==1.18.3
 matplotlib==2.2.2
 scikit-learn==0.19.1
 scikit-image==0.13.1
