@@ -1,4 +1,4 @@
 -r base.txt
 gunicorn==20.0.4
-whitenoise==3.3.1
+whitenoise==5.1.0
 dj-static==0.0.6
